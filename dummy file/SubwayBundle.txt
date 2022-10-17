@@ -1,0 +1,22 @@
+import React, { useState } from "react";
+import BundleStation from "./BundleStation";
+import BundleSubway from "./BundleSubway";
+
+const SubwayBundle:React.FC<{
+    setValueHandler: (subway:string) => void
+    place:string
+}> = ({place,setValueHandler}) => {
+    const [station, setStation] = useState('');
+    function setStationHandler(stationValue: string) {
+        setStation(stationValue);
+    }
+    return(
+        <>
+            {
+                (place == '지하철') ? <BundleSubway setStationHandler={setStationHandler} setValueHandler={setValueHandler} station={station}/> : ''
+            }
+        </>
+        )
+}
+
+export default SubwayBundle;
