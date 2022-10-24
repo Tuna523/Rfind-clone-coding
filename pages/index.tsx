@@ -65,7 +65,7 @@ const Home: NextPage = () => {
       <div id='modal-wrapper' tabIndex={-1} style={{boxSizing: 'border-box'}}></div>
       <div style={{position: 'fixed', zIndex: '9999', top: '16px', left: '16px', right: '16px', bottom:' 16px', pointerEvents: 'none'}}></div>
       {
-        login ? <ReactModalPortal login={login} loginHandler={loginHandler}/> : ''
+        login ? <ReactModalPortal loginHandler={loginHandler}/> : ''
       }
     </>
   )

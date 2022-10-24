@@ -2,9 +2,8 @@ import React, { useEffect, useState } from "react";
 import PasswordModal from "./PasswordModal";
 
 const ReactModalPortal:React.FC<{
-  login:boolean
   loginHandler: () => void
-}> = ({login, loginHandler}) => {
+}> = ({loginHandler}) => {
   const [password, setPassword] = useState(false);
   useEffect(() =>{
     let firstOverlay = document.querySelector('.Modal_overlay');

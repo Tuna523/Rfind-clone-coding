@@ -1,21 +1,63 @@
 import React, { useState } from "react";
+import BundleDistrict from "./BundleDistrict";
+import BundleLegalDong from "./BundleLegalDong";
 import BundleSubway from "./BundleSubway";
 import LocationSelect from "./LocationSelect";
 import QuoteSvg from "./QuoteSvg";
-import SelectedSubway from "./SelectedSubway";
+import SelectedPlace from "./SelectedPlace";
 import StepperStep from "./StepperStep";
+
+export type optionsType = {
+  id:string
+  name:string
+  show:boolean
+}
 
 const StepNavigation:React.FC = () => {
   const [place, setPlace] = useState('');
-  const [value,setValue] = useState<string[]>([]);
-  const setValueHandler = (subway:string) => {
-    if(value.length < 5) {
+  const [value, setValue] = useState<string[]>([]);
+  const [station, setStation] = useState('');
+  const [options, setOptions] = useState<optionsType[]>([
+    {id:'A', name:'서울도심(CBD)', show:true},
+    {id:'B', name:'여의도(YBD)', show:true},
+    {id:'C', name:'마포/공덕(MBD)', show:true},
+    {id:'D', name:'강남(GBD)', show:true},
+    {id:'E', name:'교대/서초/사당', show:true},
+    {id:'F', name:'잠실', show:true},
+    {id:'G', name:'상암(DMC)', show:true},
+    {id:'H', name:'성수', show:true},
+    {id:'I', name:'구디/가디', show:true}
+  ])
+
+  if(value.length == 5) {
+    let disable = document.querySelector('.LocationSelectTemplate_subway');
+    value.length = 5;
+    disable?.classList.add('LocationSelectTemplate_disabled');
+  }
+
+  if(value.length == 3) {
+    let disable = document.querySelector('.LocationSelectTemplate_district');
+    value.length = 3;
+    disable?.classList.add('LocationSelectTemplate_disabled');
+  }
+
+  const setStationValueHandler = (subway:string) => {
     value.push(subway);
     setValue(value.filter((element, index) => value.indexOf(element) === index));
+
+    console.log(value);
   }
-    else {
-      value.length = 5;
-    }
+
+  const setDistrictValueHandler = (district:string) => {
+    value.push(district);
+    setValue(value.filter((element, index) => value.indexOf(element) === index));
+
+    console.log(value);
+  }
+  const setLegalDongHandler = (legalDong:string) => {
+    value.push(legalDong);
+    setValue(value.filter((element, index) => value.indexOf(element) === index));
+
     console.log(value);
   }
   
@@ -24,12 +66,21 @@ const StepNavigation:React.FC = () => {
   }
 
   const removeValueHandler = (index:number) => {
+    let disableSubway = document.querySelector('.LocationSelectTemplate_subway');
+    let disableDistrict = document.querySelector('.LocationSelectTemplate_district');
     setValue(prev => prev.filter((_, i) => i !== index));
+    disableSubway?.classList.remove('LocationSelectTemplate_disabled');
+    disableDistrict?.classList.remove('LocationSelectTemplate_disabled');
   }
-  const [station, setStation] = useState('');
+
   function setStationHandler(stationValue: string) {
       setStation(stationValue);
   }
+
+  function resetValueHandler() {
+    setValue([]);
+  }
+
     return(
       <form>
         <div className='StepNavigationTemplate_component' tabIndex={-1} style={{boxSizing: 'border-box'}}>
@@ -88,13 +139,13 @@ const StepNavigation:React.FC = () => {
                             <div tabIndex={-1} style={{boxSizing: 'border-box', flexBasis: 'auto', flexGrow: '1', flexShrink: '1'}}>
                               <div tabIndex={-1} style={{boxSizing: 'border-box', height: '100%', minHeight: '100%', width: '100%', placeContent: 'flex-start', alignItems: 'inherit', display: 'flex', flexFlow: 'row wrap', gap: '30px'}}>
                                 <div id="radio-LocationSelect-SUBSTATION" role={"button"} tabIndex={0} style={{boxSizing: 'border-box', cursor: 'pointer'}}>
-                                 <LocationSelect setPlaceHandler={setPlaceHandler} location="SUBSTATION" value="지하철"/>
+                                 <LocationSelect setPlaceHandler={setPlaceHandler} location="SUBSTATION" value="지하철" resetValueHandler={resetValueHandler}/>
                                 </div>
                                 <div id="radio-LocationSelect-DISTRICT" role={"button"} tabIndex={0} style={{boxSizing: 'border-box', cursor: 'pointer'}}>
-                                <LocationSelect setPlaceHandler={setPlaceHandler} location="DISTRICT" value="오피스 권역"/>
+                                <LocationSelect setPlaceHandler={setPlaceHandler} location="DISTRICT" value="오피스 권역" resetValueHandler={resetValueHandler}/>
                                 </div>
                                   <div id="radio-LocationSelect-LEGAL_DONG" role={"button"} tabIndex={0} style={{boxSizing: 'border-box', cursor: 'pointer'}}>
-                                  <LocationSelect setPlaceHandler={setPlaceHandler} location="LEGAL_DONG" value="법정동"/>
+                                  <LocationSelect setPlaceHandler={setPlaceHandler} location="LEGAL_DONG" value="법정동" resetValueHandler={resetValueHandler}/>
                                 </div>
                               </div>
                             </div>
@@ -102,13 +153,16 @@ const StepNavigation:React.FC = () => {
                         </div>
                         <hr className="Divider_basicDivider Divider_lightGrey Divider_size1px Divider_vertical Divider_dashed"/>
                         {
-                          (place == '지하철') ? <BundleSubway setStationHandler={setStationHandler} setValueHandler={setValueHandler} station={station}/> : <></>
+                          (place == '지하철') ? <BundleSubway setStationHandler={setStationHandler} setStationValueHandler={setStationValueHandler} station={station}/> : <></>
                         }
                         {
-                          (place == '오피스 권역') ? <></> : <></>
+                          (place == '오피스 권역') ? <BundleDistrict options={options} setDistrictValueHandler={setDistrictValueHandler}/> : <></>
                         }
                         {
-                          (place == '')? <></> : <SelectedSubway value={value} removeValueHandler={removeValueHandler}/>
+                          (place == '법정동') ? <BundleLegalDong setLegalDongHandler={setLegalDongHandler} /> : <></>
+                        }
+                        {
+                          (place == '') ? <></> : <SelectedPlace value={value} removeValueHandler={removeValueHandler} options={options}/>
                         }
                         </div>
                       </div>
@@ -140,7 +194,9 @@ const StepNavigation:React.FC = () => {
             <div className="StepNavigate_buttons" tabIndex={-1} style={{boxSizing: 'border-box', alignContent: 'flex-start', alignItems: 'inherit', display: 'flex', flexDirection: 'row', flexWrap: 'nowrap', justifyContent: 'flex-start'}}>
               <div className="StepNavigate_prev" tabIndex={-1} style={{boxSizing: 'border-box'}}></div>
               <div tabIndex={-1} style={{boxSizing: 'border-box'}}>
-                <button disabled id="이후" type="submit" className="Button_basicButton Button_contained Button_primary Button_large">다음</button>
+                {
+                  (value.length >= 1) ? <button id="이후" type="submit" className="Button_basicButton Button_contained Button_primary Button_large">다음</button> : <button disabled id="이후" type="submit" className="Button_basicButton Button_contained Button_primary Button_large">다음</button>
+                  }
               </div>
             </div>
           </div>

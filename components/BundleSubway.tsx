@@ -4,9 +4,9 @@ import RadioSelectSubway from "./RadioSelectSubway";
 
 const BundleSubway:React.FC<{
     setStationHandler: (stationValue: string) => void
-    setValueHandler: (subway:string) => void
+    setStationValueHandler: (subway:string) => void
     station: string
-}> = ({setStationHandler, setValueHandler, station}) => {
+}> = ({setStationHandler, setStationValueHandler, station}) => {
     return(
         <div tabIndex={-1} style={{boxSizing: 'border-box'}}>
             <div className="LocationSelectTemplate_subway" tabIndex={-1} style={{boxSizing: 'border-box'}}>
@@ -26,7 +26,7 @@ const BundleSubway:React.FC<{
                 </div>
                 <div className="LocationSelectTemplate_marginTop LocationSelectTemplate_marginBottom" tabIndex={-1} style={{boxSizing: 'border-box'}}>
                     {
-                        (station == '수도권') ? <BundleStation setValueHandler={setValueHandler} /> : ''
+                        (station == '수도권') ? <BundleStation setStationValueHandler={setStationValueHandler} /> : ''
                     }
                 </div>
             </div>

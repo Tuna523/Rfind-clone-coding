@@ -1,10 +1,12 @@
 import React from "react";
 import SelectedLocation from "./SelectedLocation";
+import { optionsType } from "./StepNavigation";
 
-const SelectedSubway:React.FC<{
+const SelectedPlace:React.FC<{
+    options: optionsType[]
     value: string[]
     removeValueHandler: (index:number) => void
-}> = ({value, removeValueHandler}) => {
+}> = ({options, value, removeValueHandler}) => {
     return(
         <div tabIndex={-1} style={{boxSizing: 'border-box'}}>
             <hr className="Divider_basicDivider Divider_grey Divider_size1px Divider_vertical Divider_solid"/>
@@ -21,9 +23,7 @@ const SelectedSubway:React.FC<{
                     <div tabIndex={-1} style={{boxSizing: 'border-box', flex: '1 1 auto'}}>
                         <div tabIndex={-1} style={{boxSizing: 'border-box'}}>
                             <div tabIndex={-1} style={{boxSizing: 'border-box', height: '100%', minHeight: '100%', width: '100%', placeContent: 'flex-start', alignItems: 'inherit', display: 'flex', flexFlow: 'row wrap', gap: '20px'}}>
-                                {value.map( (value,idx) => (
-                                    <SelectedLocation value={ value } key={'value'+idx} removeValueHandler={removeValueHandler} index={idx}/>
-                                ))}
+                                <SelectedLocation value={value} removeValueHandler={removeValueHandler} options={options}/>
                             </div>
                         </div>
                     </div>
@@ -33,4 +33,4 @@ const SelectedSubway:React.FC<{
     )
 }
 
-export default SelectedSubway;
+export default SelectedPlace;
