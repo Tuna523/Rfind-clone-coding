@@ -738,7 +738,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
     justify-content: space-between;
     min-height: 38px;
     position: relative;
-    transition: all 100mx ease 0s;
+    transition: all 100ms ease 0s;
     box-sizing: border-box;
     outline: 0px !important;
 }
@@ -754,6 +754,14 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
 
 .Select_medium [class$=-control] {
     padding: 4px 6px;
+}
+
+.css-control:hover{
+    border-color: rgb(38, 132, 255)
+}
+
+.Select_component [class$=-control]:hover {
+    border: 1px solid #c8161d;
 }
 
 .theme-vermilion .Select_component [class$=-control] {
@@ -774,7 +782,8 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
     box-shadow: rgb(0 0 0 / 10%) 0px 0px 0px 1px,
                 rgb(0 0 0 / 10%) 0px 4px 11px;
     margin-bottom: 8px;
-    position: absolute;
+    margin-top: 8px;
+    position: static;
     width: 100%;
     z-index: 1;
     box-sizing: border-box;
@@ -801,3 +810,21 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
     min-width: -moz-max-content;
     min-width: max-content;
 }
+
+.css-menuWrap {
+    max-height: 300px;
+    overflow-y: auto;
+    padding-bottom: 4px;
+    padding-top: 4px;
+    position: relative;
+    box-sizing: border-box;
+}
+
+.Select_option {
+    padding: 4px 16px;
+}
+
+/* .Select_option.Select_isFocused, .Select_option.Select_isSelected,
+.Select_option:active, .Select_option:focus, .Select_option:hover {
+    background: #eff1f3;
+} */
