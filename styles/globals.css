@@ -406,6 +406,10 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
     border-color: #ddd;
 }
 
+.Divider_basicDivider.Divider_grey {
+    border-color: #999;
+}
+
 .Divider_basicDivider.Divider_solid {
     border-style: solid;
 }
@@ -783,8 +787,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
                 rgb(0 0 0 / 10%) 0px 4px 11px;
     margin-bottom: 8px;
     margin-top: 8px;
-    position: static;
-    width: 100%;
+    position: relative;
     z-index: 1;
     box-sizing: border-box;
 }
