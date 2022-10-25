@@ -787,9 +787,10 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
                 rgb(0 0 0 / 10%) 0px 4px 11px;
     margin-bottom: 8px;
     margin-top: 8px;
-    position: relative;
+    position: absolute;
     z-index: 1;
     box-sizing: border-box;
+    width: 100%;
 }
 
 .Select_component [class$=-menu] {
@@ -825,6 +826,23 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
 
 .Select_option {
     padding: 4px 16px;
+}
+
+.css-Text {
+    z-index: 9999;
+    border: 0px;
+    clip: rect(1px, 1px, 1px, 1px);
+    height: 1px;
+    width: 1px;
+    position: absolute;
+    overflow: hidden;
+    padding: 0px;
+    white-space: nowrap;
+}
+
+.css-container {
+    position: relative;
+    box-sizing: border-box;
 }
 
 /* .Select_option.Select_isFocused, .Select_option.Select_isSelected,
