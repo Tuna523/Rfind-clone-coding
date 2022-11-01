@@ -1,0 +1,72 @@
+import { useQuery } from "@tanstack/react-query";
+import axios, { AxiosResponse } from "axios";
+import React, { useState } from "react";
+
+const NewTree:React.FC<{
+    times:number
+    data: AxiosResponse<any, any> | undefined
+    level: number
+    status ?: string
+    visibility ?: string
+}> = ({times, data, level, status = 'opened', visibility= 'showList'}) => {
+    const [testList, setTestList] = useState<any>([]);
+    const [indexValue, setIndexValue] = useState(0);
+    const [id, setId] = useState(0);
+    const { data: data2 } = useQuery(['legal-dong-item-level2', id], () => axios.get(`https://rfind-api-int.rsquare.co.kr/legal-dongs?code=${id}`));
+    // console.log(testList);
+    return(
+        <>
+                {
+                data?.data.map((item:any, index:number)=> {
+                    /* function ListPush() {
+                        testList.push(item.name)[indexValue];
+                        setTestList(testList.filter((element:string, index:number) => testList.indexOf(element) === index));
+                    } */
+                    function showTreeHandler() {
+                        var showTree = document.querySelector('.closed');
+                        showTree?.classList.replace('hideList','showList');
+                        // var level4Test = document.querySelectorAll('[id*=level4]')[index];
+                        // console.log(level4Test);
+                    }
+                    return(
+                        <ul onClick={(e)=> {setIndexValue(index); setId(item.id); showTreeHandler();}} key={item.id} id={`level${level}-${index}`} className="leftMargin">
+                            <li onClick={(e)=>{}} className={`${status} ${visibility}`}>
+                                    <li className={`itemName Level-${level}`}>{item.name}</li>
+                                    {
+                                        times == 2 
+                                        ? null
+                                        : (indexValue == index)
+                                        ? <NewTree times={times + 1} data={data2} level={level+1} status={'closed'} visibility={'hideList'}/>
+                                        : null
+                                    }
+                            </li>
+                        </ul>
+                    )
+                }
+                )
+            }
+        </>
+    )
+}
+
+export default NewTree
+
+
+
+
+
+
+
+/*                         var ulSelector = document.querySelector(`#level${level}-${index}`);
+                        var levelTwoSelector = document.querySelector('.Level-2')
+                        var liStatus = ulSelector?.firstElementChild;
+                        if(levelTwoSelector !== ulSelector && liStatus?.classList.contains('closed')){
+                            liStatus?.classList.replace('closed', 'opened');
+                            console.log(ulSelector);
+                            console.log(liStatus);
+                        }
+                        else{
+                            liStatus?.classList.replace('opened', 'closed');
+                            console.log(ulSelector);
+                            console.log(liStatus);
+                        } */

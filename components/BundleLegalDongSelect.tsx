@@ -4,21 +4,35 @@ import BundleLegalDongMenu from "./BundleLegalDongMenu";
 const BundleLegalDongSelect:React.FC<{
     value: string
     setLegalDongHandler: (legalDong:string) => void
-}> = ({value, setLegalDongHandler}) => {
+    invisible?: string
+    id:string
+    number:number
+    changeMenuValue: (index:number) => void
+    menuIndex: number
+    menuIndex2: number
+    changeMenuValue2: (index:number) => void
+    setDongName: (name:string) => void
+    setDongName2: (name:string) => void
+}> = ({value, setLegalDongHandler, invisible, id, number, changeMenuValue, menuIndex, menuIndex2, changeMenuValue2, setDongName, setDongName2}) => {
     const [dongPress, setDongPress] = useState(false);
+
     function dongPressHandler() {
         setDongPress(!dongPress);
         console.log(dongPress);
     }
+    function changeVisibility() {
+        var selectInvisible = document.querySelector('#Dong'+(number+1));
+        selectInvisible?.classList.replace('invisible','visible');
+    }
     return(
-        <div tabIndex={-1} style={{boxSizing: 'border-box', minWidth: '150px', width: '150px'}}>
+        <div id={id} className={invisible} tabIndex={-1} style={{boxSizing: 'border-box', minWidth: '150px', width: '150px'}}>
             <div className="Select_component Select_medium css-container" onClick={(e)=> {e.preventDefault(); dongPressHandler();}}>
                 <span id="react-select-number-live-region" className="css-Text"></span>
                 <span aria-live="polite" aria-relevant="additions text" aria-atomic="false" className="css-Text"></span>
                 <div className="css-control">
                     <div className="css-selectText">
                         <div className="css-placeholder" id="react-select-number-placeholder">{value}</div>
-                        <input id="react-select-number-input" tabIndex={0} inputMode="none" aria-autocomplete="list" aria-expanded="false" aria-haspopup="true" role="combobox" aria-readonly="true" aria-describedby="react-select-number-placeholder" className="css-dummyInput" value=''/>
+                        <input id="react-select-number-input" tabIndex={0} inputMode="none" aria-autocomplete="list" aria-haspopup="true" role="combobox" aria-controls="" aria-expanded="false" aria-readonly="true" aria-describedby="react-select-number-placeholder" className="css-dummyInput" defaultValue=''/>
                     </div>
                     <div className="css-svg">
                         <svg className="SvgIcon_basicIcon SvgIcon_basic SvgIcon_small" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
@@ -27,9 +41,9 @@ const BundleLegalDongSelect:React.FC<{
                     </div>
                 </div>
                 {
-                    dongPress ? <BundleLegalDongMenu setLegalDongHandler={setLegalDongHandler}/> : <></>
+                    dongPress ? <BundleLegalDongMenu setLegalDongHandler={setLegalDongHandler} changeVisibility={changeVisibility} number={number} changeMenuValue={changeMenuValue} menuIndex={menuIndex} menuIndex2={menuIndex2} changeMenuValue2={changeMenuValue2} setDongName={setDongName} setDongName2={setDongName2}/> : <></>
                 }
-                <input name="legalLevelOne" type={'hidden'} value=''/>
+                <input name="legalLevelOne" type={'hidden'} defaultValue=''/>
             </div>
         </div>
     )

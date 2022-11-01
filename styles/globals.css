@@ -845,7 +845,58 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
     box-sizing: border-box;
 }
 
+.invisible {
+    opacity: .5;
+    pointer-events: none;
+}
+
+.dropdown-menu {
+    display: none;
+    border: 0.5px solid black;
+}
+
+.open>.dropdown-menu {
+    display: block;
+}
+
 /* .Select_option.Select_isFocused, .Select_option.Select_isSelected,
 .Select_option:active, .Select_option:focus, .Select_option:hover {
     background: #eff1f3;
 } */
+
+.hideList {
+    display: none;
+}
+
+.showList {
+    display: block;
+}
+
+.leftMargin {
+    margin-left: 20px;
+}
+
+.opened::marker {
+    content: "-";
+}
+
+.closed::marker {
+    content: "+";
+}
+
+li span, .itemName {
+    position: relative;
+    left: 10px;
+}
+
+.itemName {
+    background: rgba(200, 200, 200 ,0.5)
+}
+
+/* li[id^="level4"].opened{
+    content: none;
+} */
+
+ul [class*="Level4"] > li::marker {
+    content: none;
+}

@@ -1,0 +1,28 @@
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
+import React from "react";
+
+const TreeViewMenu2:React.FC<{
+    id:number
+    step:number
+}> = ({id, step}) => {
+    const { data:value2 } = useQuery(['legal-dong-item-FirstNode'], () => axios.get(`https://rfind-api-int.rsquare.co.kr/legal-dongs?code=${id}`))
+    return(
+        <>
+        {(step >= 2) ? <>test</> : <></>}
+            {
+                value2?.data.map((item2: any)=> {
+                    return(
+                        <>
+                            {
+                                <div className="">hello</div>
+                            }
+                        </>
+                    )
+                })
+            }
+        </>
+    )
+}
+
+export default TreeViewMenu2

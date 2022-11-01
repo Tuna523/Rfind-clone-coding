@@ -41,6 +41,12 @@ const StepNavigation:React.FC = () => {
     disable?.classList.add('LocationSelectTemplate_disabled');
   }
 
+  if(value.length == 5) {
+    let disable = document.querySelector('.LocationSelectTemplate_legal');
+    value.length = 5;
+    disable?.classList.add('LocationSelectTemplate_disabled');
+  }
+
   const setStationValueHandler = (subway:string) => {
     value.push(subway);
     setValue(value.filter((element, index) => value.indexOf(element) === index));
@@ -68,9 +74,11 @@ const StepNavigation:React.FC = () => {
   const removeValueHandler = (index:number) => {
     let disableSubway = document.querySelector('.LocationSelectTemplate_subway');
     let disableDistrict = document.querySelector('.LocationSelectTemplate_district');
+    let disableLegal = document.querySelector('.LocationSelectTemplate_legal');
     setValue(prev => prev.filter((_, i) => i !== index));
     disableSubway?.classList.remove('LocationSelectTemplate_disabled');
     disableDistrict?.classList.remove('LocationSelectTemplate_disabled');
+    disableLegal?.classList.remove('LocationSelectTemplate_disabled');
   }
 
   function setStationHandler(stationValue: string) {

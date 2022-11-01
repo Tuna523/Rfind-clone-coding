@@ -1,0 +1,148 @@
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
+import React from "react";
+
+interface Dong {
+    name: string
+    children: [{
+        name: string
+        children1: [
+            {
+                name: string
+                children2: [{
+                    name: string
+                    children3: [{
+                        name:string
+                    }]
+                }]
+            }
+        ]
+    },
+    // {
+    //     name: string
+    //     children: [
+    //         {
+    //             name: string
+    //             children: [{
+    //                 name: string
+    //                 children: [{
+    //                     name:string
+    //                 }]
+    //             }]
+    //         }
+    //     ]
+    // },
+    // {
+    //     name: string
+    //     children: [
+    //         {
+    //             name: string
+    //             children: [{
+    //                 name: string
+    //                 children: [{
+    //                     name:string
+    //                 }]
+    //             }]
+    //         }
+    //     ]
+    // }
+
+]
+}
+
+interface DongList{
+    places: Dong[]
+}
+
+const testData = {
+    places: [{
+        name: 'Root',
+        children: [{
+            name: 'Child 1',
+            children1: [{
+                name: 'Child 1-1',
+                children2: [{
+                    name: 'Child 1-1-1',
+                    children3: [{
+                        name: 'Child 1-1-1-1'
+                    }]
+                }]
+            }]
+        },
+        // {
+        //     name: 'Child 2',
+        //     children: [{
+        //         name: 'Child 2-1',
+        //         children: [{
+        //             name: 'Child 2-1-1',
+        //             children: [{
+        //                 name: 'Child 2-1-1-1'
+        //             }]
+        //         }]
+        //     }]
+        // },
+        // {
+        //     name: 'Child 3',
+        //     children: [{
+        //         name: 'Child 3-1',
+        //         children: [{
+        //             name: 'Child 3-1-1',
+        //             children: [{
+        //                 name: 'Child 3-1-1-1'
+        //             }]
+        //         }]
+        //     }]
+        // }
+    ]
+    }]
+} as DongList
+
+/* const Test = (props:any) => {
+    return (
+        <>
+        {testData.places.map((item:any)=>{
+            return(
+            <>
+                <div className="test">
+                    {item.name}
+                    {item.children?.length && <Test places={item.children} />}
+                </div>
+            </>
+            )
+        })}
+        </>
+    );
+}; */
+
+const NewTreeView:React.FC<{}> = () => {
+    const { data } = useQuery(['legal-dong-item-root'], () => axios.get('https://rfind-api-int.rsquare.co.kr/legal-dongs'));
+    function TestFunction() {
+        var testSelector = document.querySelector("#Root");
+        if( testSelector?.classList.contains('hideList')){
+            testSelector?.classList.replace('hideList', 'showList');
+        }
+        else {
+            testSelector?.classList.replace('showList', 'hideList');
+        }
+    }
+    return(
+        <>
+        <div style={{backgroundColor: 'pink', border: '0.5px solid black'}} onClick={(e)=> {TestFunction()}}> 클릭해서 열기</div>
+        <div id="Root" className="hideList">
+        {
+                testData?.places.map((item:any, index:number)=> {
+                    return(
+                            <div key={item.id} onClick={(e)=> {console.log(index)}} id={`${index}`} className="leftMargin">
+                                {JSON.stringify(testData)}
+                                {item.name}
+                                {item.children}
+                            </div>   
+                    )
+                })
+            }
+            </div>
+        </>
+    )
+}
+
+export default NewTreeView;

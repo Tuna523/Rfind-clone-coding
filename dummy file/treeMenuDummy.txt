@@ -1,0 +1,42 @@
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import TreeViewMenu2 from "./TreeViewMenu2";
+
+const TreeViewMenu:React.FC<{
+    press: boolean
+    pressValueHandler: (status:boolean) => void
+}> = ({press, pressValueHandler}) => {
+    const [id, setId] = useState(0);
+    const [step, setStep] = useState(0);
+    const { data:value1 } = useQuery(['legal-dong-item-root'], () => axios.get(`https://rfind-api-int.rsquare.co.kr/legal-dongs`));
+    
+    function getIdHandler(value:number) {
+        setId(value);
+    }
+    useEffect(()=> {
+        console.log(id);
+    }, [id]);
+    
+    function getStepFunction(step: number) {
+        setStep(step);
+        console.log(step);
+    }
+    return(
+        <div className="css-menu" id="react-select-number-listbox">
+            <div className="css-menuWrap">
+                {
+                value1?.data.map((item: any)=> {
+                    return(
+                                <li key={item.id} onClick={(e)=> {getIdHandler(item.id); getStepFunction(2)}} className="Select_option Select_isSelected Select_isFocused" id="react-select-number-option-0" role="button" tabIndex={-1} style={{boxSizing: 'border-box', cursor: 'pointer', listStyle: 'none'}} >
+                                    {item.name}
+                                    </li>
+                        )
+                    })
+                }
+            </div>
+        </div>
+    )
+}
+
+export default TreeViewMenu;

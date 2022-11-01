@@ -1,0 +1,34 @@
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
+import React from "react";
+import NewTree from "./NewTree";
+
+const NewTreeView:React.FC<{}> = () => {
+    const { data } = useQuery(['legal-dong-item-root'], () => axios.get(`https://rfind-api-int.rsquare.co.kr/legal-dongs`));
+    var level = 1;
+
+    function showRootHandler() {
+        var RootSelector = document.querySelector("#Root");
+        var RootOpener = document.querySelector('#openRoot');
+        if( RootSelector?.classList.contains('hideList')){
+            RootSelector?.classList.replace('hideList', 'showList');
+            RootOpener?.classList.replace('closed', 'opened');
+        }
+        else {
+            RootSelector?.classList.replace('showList', 'hideList');
+            RootOpener?.classList.replace('opened', 'closed');
+        }
+    }
+    return(
+        <>
+        <li id="openRoot" className={`closed Level-${level}`} style={{border: '0.5px solid black', borderRadius: '5px'}} onClick={(e)=> {showRootHandler();}}>
+            <span>클릭해서 열기</span>
+        </li>
+        <div id="Root" className="hideList">
+                <NewTree times={0} data={data} level={level+1}/>
+            </div>
+        </>
+    )
+}
+
+export default NewTreeView;
