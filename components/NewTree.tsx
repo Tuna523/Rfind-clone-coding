@@ -1,67 +1,47 @@
 import { useQuery } from "@tanstack/react-query";
-import axios, { AxiosResponse } from "axios";
-import React, { useState } from "react";
+import axios from "axios";
+import React from "react";
+import NewTreeItem from "./NewTreeItem";
 
-const NewTree:React.FC<{
-    times:number
-    data: AxiosResponse<any, any> | undefined
-    level: number
-}> = ({times, data, level}) => {
-    const [indexValue, setIndexValue] = useState(0);
-    const [id, setId] = useState(0);
-    const { data: data2 } = useQuery(['legal-dong-item-level2', id], () => axios.get(`https://rfind-api-int.rsquare.co.kr/legal-dongs?code=${id}`));
+
+const NewTreeView:React.FC<{}> = () => {
+    const { data:props } = useQuery(['legal-dong-item-root'], () => axios.get(`https://rfind-api-int.rsquare.co.kr/legal-dongs`));
+    var level = 1;
+
+    // function showRootHandler() {
+    //     var RootSelector = document.querySelector("#Root");
+    //     var RootOpener = document.querySelector('#openRoot');
+    //     if( RootSelector?.classList.contains('hideList')){
+    //         RootSelector?.classList.replace('hideList', 'showList');
+    //         RootOpener?.classList.replace('closed', 'opened');
+    //     }
+    //     else {
+    //         RootSelector?.classList.replace('showList', 'hideList');
+    //         RootOpener?.classList.replace('opened', 'closed');
+    //     }
+    // }
+    // console.log(props?.data)
     return(
         <>
-            {
-                data?.data.map((item:any, index:number)=> {
-
-                    // function showTreeHandler() {}
-                    return(
-                        <ul onClick={(e)=> {setIndexValue(index); setId(item.id);}} key={item.id} id={`${item.id}`} className={`leftMargin Level${level}-${index}`}>
-                            <li onClick={(e)=>{}} className={`closed`}>
-                                    <li className={`itemName Level-${level}`}>
-                                        {item.name}
-                                        {/* {dataList.map((value:string)=> {
-                                            return(<>
-                                            {value}
-                                            </>)
-                                        })} */}
-                                        </li>
-                                    {
-                                        times == 2 
-                                        ? null
-                                        : (indexValue == index)
-                                        ? <NewTree times={times + 1} data={data2} level={level+1}/>
-                                        : <></>
-                                    }
-                            </li>
-                        </ul>
-                    )
-                }
-                )
-            }
+        {/* <li id="openRoot" className={`closed Level-${level}`} style={{border: '0.5px solid black', borderRadius: '5px'}} >
+            <span>클릭해서 열기</span>
+        </li> */}
+        {
+            props?.data && props.data.length > 0 &&
+                <ul>
+                    {props.data.map((data: Object, idx: number)=> {
+                        
+                        return <li key={`root-item-${idx}`}>
+                            <NewTreeItem times={0} level={level} value={data} {...props}></NewTreeItem>
+                        </li>
+                    })}
+                </ul>
+        }
+        {/* <div id="Root" className="showList">
+                <NewTreeItem times={0} data={data} level={level+1}/>
+            </div> */}
         </>
     )
 }
 
-export default NewTree
-
-
-
-
-
-
-
-/*                         var ulSelector = document.querySelector(`#level${level}-${index}`);
-                        var levelTwoSelector = document.querySelector('.Level-2')
-                        var liStatus = ulSelector?.firstElementChild;
-                        if(levelTwoSelector !== ulSelector && liStatus?.classList.contains('closed')){
-                            liStatus?.classList.replace('closed', 'opened');
-                            console.log(ulSelector);
-                            console.log(liStatus);
-                        }
-                        else{
-                            liStatus?.classList.replace('opened', 'closed');
-                            console.log(ulSelector);
-                            console.log(liStatus);
-                        } */
+export default NewTreeView;

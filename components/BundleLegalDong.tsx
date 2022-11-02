@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import BundleLegalDongSelect from "./BundleLegalDongSelect";
-import NewTreeView from "./NewTreeView";
+import NewTree from "./NewTree";
 import TreeView from "./TreeView";
 
 var index = 0;
@@ -27,10 +27,10 @@ const BundleLegalDong:React.FC<{
         setMenuIndex2(index);
     }
 
-    useEffect(() => {
-        console.log(menuIndex);
-        console.log(menuIndex2);
-    }, [menuIndex, menuIndex2]);
+    // useEffect(() => {
+    //     console.log(menuIndex);
+    //     console.log(menuIndex2);
+    // }, [menuIndex, menuIndex2]);
 
     return(
         <div tabIndex={-1} style={{boxSizing: 'border-box'}}>
@@ -53,7 +53,7 @@ const BundleLegalDong:React.FC<{
 
                         </div>
                         {/* <TreeView/> */}
-                        <NewTreeView />
+                        <NewTree />
                     </div>
                 </div>
             </div>
