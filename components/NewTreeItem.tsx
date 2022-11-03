@@ -1,70 +1,53 @@
 import { useQuery } from "@tanstack/react-query";
-import axios, { AxiosResponse } from "axios";
+import axios from "axios";
 import React, { useEffect, useState } from "react";
 
 const NewTreeItem:React.FC<{
-    times:number
     value:any
-    level: number
-}> = ({times, value, level}) => {
-    const [indexValue, setIndexValue] = useState(0);
-    const [id, setId] = useState(0);
+}> = ({value}) => {
+
+    const [idList, setIdList] = useState([]);
+    const [mounted, setMounted] = useState(false);
+    // useEffect(()=> {
+    //     if(mounted == false){
+    //     idList.pop();
+    //     setMounted(true);
+    // }
+    // else{
+    //     null
+    // }
+    // }, [idList])
+    console.log(idList)
+    const [show, setShow] = useState(false);
     
-    const { data: data2 } = useQuery(['legal-dong-item-level2'], () => axios.get(`https://rfind-api-int.rsquare.co.kr/legal-dongs?code=${1}`));
-    const [dataList] = useState(data2) as Array<Object>
-
-    console.log(dataList);
-
+    const { data: value2 } = useQuery(['legal-dong-item-level2', idList], () => axios.get(`https://rfind-api-int.rsquare.co.kr/legal-dongs?code=${idList}`));
     return(
-        // level !== 4 ?
-        <>
+        <div style={{background: show || value.depth == 3? 'rgba(211, 233, 245, 0.4)':'rgba(177, 219, 241, 0.4)'}} className="treeItemContainer">
             {
-                // data?.data.map((item:any, index:number)=> {
-                //     function testFunction() {
-                //         // console.log(clickedId+' this is clickedId');
-                //         setIdList(idList.filter((element, index)=> idList.indexOf(element) === item.id))
-                //         idList?.push(id);
-                //         setIdList(idList.filter((element)=> element !== 0)); // 첫 id를 0으로 받기에 0을 제거하는
-                //         // setIdList(idList?.filter((element, index)=> idList.indexOf(element) === index)); // 중복 제거
-                //         // let checking = idList.filter((element) => idList.indexOf(element) !== item.id)
-                //         // console.log(checking + '------>' + item.id + ' this is checking Value')
-                //     }
-
-                //     // function showTreeHandler() {}
-                //     return(
-                //         <ul onClick={(e)=> {setIndexValue(index); setId(item.id); testFunction()}} key={item.id} id={`${item.id}`} className={`leftMargin Level${level}-${index}`}>
-                //             <li onClick={(e)=>{}} className={`closed`}>
-                //                     <li className={`itemName Level-${level}`}>
-                //                         {item.name}
-                //                         {/* {dataList.map((value:string)=> {
-                //                             return(<>
-                //                             {value}
-                //                             </>)
-                //                         })} */}
-                //                         </li>
-                //                     {
-                //                         (indexValue == index) || idList?.includes(item.id)
-                //                         ? <NewTreeItem times={times + 1} data={data2} level={level+1}/>
-                //                         : <span></span>
-                //                     }
-                //             </li>
-                //         </ul>
-                //     )
-                // }
-                // )
-                <div>
-                    <button onClick={(e)=>{e.preventDefault();}}>{'button'}</button>
-                    {<span>
-                        {value.name}
-                        {value.id}
-                        {' depth:'}{value.depth}
-                    </span>}
+                <div style={{}}>
+                    {
+                        value.depth !== 3
+                        ? show && idList && value2?.data.length > 0
+                        ? <button className="treeItemButton" onClick={(e)=>{e.preventDefault(); setShow(!show)}}>{"-"}</button> 
+                        : <button className="treeItemButton" onClick={(e)=>{e.preventDefault(); setIdList(value.id); setShow(!show)}}>{'+'}</button>
+                        : null
+                    }
+                    {   
+                        value.depth !== 3
+                        ? <span>[Level {value.depth}] {value.name}</span>
+                        : <span style={{marginLeft: '30px'}}>[Level {value.depth}] {value.name}</span>
+                    }
+                    {/* style={{marginLeft: `calc(${value.depth} * 2.5rem)`}} */}
                 </div>
             }
-        </>
-        // :
-        // <>
-        // </>
+            {idList && value2?.data.length > 0 && <ul style={{display: show? '': 'none'}}>
+                {value2?.data.map((child:any, idx:any)=>{
+                    return <li key={`child-item-${idx}`}>
+                        <NewTreeItem value={child} />
+                    </li>
+                })}
+                </ul>}
+        </div>
     )
 }
 

@@ -50,9 +50,9 @@ const Home: NextPage = () => {
         <meta name='next-head-count' content='19'/>
         <link rel='preconnect' href='https://fonts.gstatic.com'/>
         <link rel='preload' href='https://www.rsquare.co.kr/_next/static/css/9ae883b6346517c5.css' as='style'/>
-        <link rel='stylesheet' href='https://www.rsquare.co.kr/_next/static/css/9ae883b6346517c5.css' data-n-g/>
+        {/* <link rel='stylesheet' href='https://www.rsquare.co.kr/_next/static/css/9ae883b6346517c5.css' data-n-g/> */}
         <link rel='preload' href='https://www.rsquare.co.kr/_next/static/css/c2046d6d87b9bdc7.css' as='style'/>
-        <link rel='stylesheet' href='https://www.rsquare.co.kr/_next/static/css/c2046d6d87b9bdc7.css' data-n-p/>
+        {/* <link rel='stylesheet' href='https://www.rsquare.co.kr/_next/static/css/c2046d6d87b9bdc7.css' data-n-p/> */}
         <noscript data-n-css></noscript>
         <script type='text/javascript' async src='https://cdn.channel.io/plugin/ch-plugin-web.js'></script>
       </Head>
