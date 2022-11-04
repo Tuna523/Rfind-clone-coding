@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import AnotherTree from "./AnotherTree";
 import BundleLegalDongSelect from "./BundleLegalDongSelect";
 import NewTree from "./NewTree";
 import TreeView from "./TreeView";
@@ -54,6 +55,7 @@ const BundleLegalDong:React.FC<{
                         </div>
                         {/* <TreeView/> */}
                         <NewTree />
+                        <AnotherTree/>
                     </div>
                 </div>
             </div>

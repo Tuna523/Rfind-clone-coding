@@ -1,23 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, {useState } from "react";
 
 const NewTreeItem:React.FC<{
     value:any
 }> = ({value}) => {
 
     const [idList, setIdList] = useState([]);
-    const [mounted, setMounted] = useState(false);
-    // useEffect(()=> {
-    //     if(mounted == false){
-    //     idList.pop();
-    //     setMounted(true);
-    // }
-    // else{
-    //     null
-    // }
-    // }, [idList])
-    console.log(idList)
     const [show, setShow] = useState(false);
     
     const { data: value2 } = useQuery(['legal-dong-item-level2', idList], () => axios.get(`https://rfind-api-int.rsquare.co.kr/legal-dongs?code=${idList}`));
@@ -37,7 +26,7 @@ const NewTreeItem:React.FC<{
                         ? <span>[Level {value.depth}] {value.name}</span>
                         : <span style={{marginLeft: '30px'}}>[Level {value.depth}] {value.name}</span>
                     }
-                    {/* style={{marginLeft: `calc(${value.depth} * 2.5rem)`}} */}
+                    
                 </div>
             }
             {idList && value2?.data.length > 0 && <ul style={{display: show? '': 'none'}}>
